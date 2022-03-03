@@ -59,23 +59,27 @@ public class SellerDaoJdbc implements SellerDao {
 	public void update(Seller obj) {
 		PreparedStatement st = null;
 		try {
-			st = conn.prepareStatement("UPDATE seller "
-					+ "SET Name = ?, BirthDate = ?, BaseSalary = ?, DepartmentId = ? " + "WHERE Id = ? ");
+			st = conn.prepareStatement(
+					"UPDATE seller "
+					+ "SET Name = ?, Email = ?, BirthDate = ?, BaseSalary = ?, DepartmentId = ? "
+					+ "WHERE Id = ?");
+			
 			st.setString(1, obj.getName());
 			st.setString(2, obj.getEmail());
 			st.setDate(3, new java.sql.Date(obj.getBirthDate().getTime()));
 			st.setDouble(4, obj.getBaseSalary());
 			st.setInt(5, obj.getDepartment().getId());
 			st.setInt(6, obj.getId());
-
-		} catch (SQLException e) {
+			
+			st.executeUpdate();
+		}
+		catch (SQLException e) {
 			throw new DbException(e.getMessage());
-		} finally {
+		}
+		finally {
 			DB.closeStatement(st);
 		}
-
 	}
-
 	@Override
 	public List<Seller> findAll() {
 		PreparedStatement st = null;
@@ -111,7 +115,16 @@ public class SellerDaoJdbc implements SellerDao {
 
 	@Override
 	public void deleteById(Integer id) {
-		// TODO Auto-generated method stub
+		PreparedStatement st = null;
+		try {
+			st = conn.prepareStatement("DELETE FROM seller WHERE Id = ? ");
+			st.setInt(1, id);
+			st.execute();
+		}catch(SQLException e) {
+			throw new DbException(e.getMessage());
+		}finally{
+			DB.closeStatement(st);
+		}
 
 	}
 
@@ -141,7 +154,7 @@ public class SellerDaoJdbc implements SellerDao {
 		}
 	}
 
-	// metodo para instaciar seller, usado em find by id
+	// METODO PARA INSTACIAR SELLER
 	private Seller instatiateSeller(ResultSet rs, Department dep) throws SQLException {
 		Seller obj = new Seller();
 		obj.setId(rs.getInt("Id"));
@@ -152,7 +165,7 @@ public class SellerDaoJdbc implements SellerDao {
 		obj.setDepartment(dep);
 		return obj;
 	}
-
+	// METODO PARA INSTACIAR DEPARTMENT
 	private Department instantiateDepartment(ResultSet rs) throws SQLException {
 		Department dep = new Department();
 		dep.setId(rs.getInt("DepartmentId"));
