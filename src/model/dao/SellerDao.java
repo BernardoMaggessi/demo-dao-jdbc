@@ -7,10 +7,7 @@ import model.entities.Seller;
 
 public interface SellerDao {
 
-	static void insert(Seller obj) {
-		// TODO Auto-generated method stub
-		
-	}
+	void insert(Seller obj);
 	void update(Seller obj);
 	void deleteById(Integer id);
 	Seller findById(Integer id);

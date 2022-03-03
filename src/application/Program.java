@@ -5,6 +5,7 @@ import java.util.List;
 
 import model.dao.DaoFactory;
 import model.dao.SellerDao;
+import model.dao.impl.SellerDaoJdbc;
 import model.entities.Department;
 import model.entities.Seller;
 
@@ -29,10 +30,16 @@ public class Program {
 		for (Seller obj : list)
 			System.out.println(obj);
 
-		System.out.println("\n==========TESTE 3:seller INSERT==========");
+		System.out.println("\n==========TESTE 4:seller INSERT==========");
 		Seller newSeller = new Seller(null, "Greg", "gref@gmail.com", new Date(), 4000.0, department);
-		SellerDao.insert(newSeller);
+		sellerdao.insert(newSeller);
 		System.out.println("Inserted! new id = " + newSeller.getId());
+		
+		System.out.println("\n==========TESTE 5:seller update==========");
+		seller = sellerdao.findById(1);
+		seller.setName("Martha waine");
+		sellerdao.update(seller);
+		System.out.println("Update completed");
 	}
 
 }
