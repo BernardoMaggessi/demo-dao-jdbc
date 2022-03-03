@@ -17,13 +17,17 @@ public class Program {
 		Seller seller = sellerdao.findById(3);
 		System.out.println(seller);
 		
-		System.out.println("\n\n==========TESTE 2:seller FindByDepartment==========");
+		System.out.println("\n==========TESTE 2:seller FindByDepartment==========");
 		Department department = new Department(2, null);
 		List<Seller> list =  sellerdao.findByDepartment(department);
-		for(Seller obj : list) {
+		for(Seller obj : list) 
 			System.out.println(obj);
-		}
-
+		
+		System.out.println("\n==========TESTE 3:seller FindAll==========");
+		list =  sellerdao.findAll();
+		for(Seller obj : list) 
+			System.out.println(obj);
+		
 	}
 
 }
